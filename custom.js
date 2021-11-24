@@ -51,7 +51,12 @@ function generateGrade(salaryData) {
 
 function getNextStep(salaryData, nextGrade, basic){
     const filtered = salaryData.filter(item => (parseInt(item.GRADE) === nextGrade) && (parseFloat(item.BASIC) > basic));
-    const basics = filtered.sort((x, y) => parseInt(x.STEP) - parseInt(y.STEP));
+    let basics  = [];
+    if(filtered.length > 0){
+        basics = filtered.sort((x, y) => parseInt(x.STEP) - parseInt(y.STEP));
+    }else{
+        basics = salaryData.filter(item => parseInt(item.GRADE) === nextGrade).sort((x, y) => parseInt(y.STEP) - parseInt(x.STEP));
+    }
     if(basics.length > 0){
         return basics[0].STEP;
     }
