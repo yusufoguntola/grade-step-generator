@@ -28,7 +28,7 @@ function generateGrade(salaryData) {
         complete: function(result) {
             result.data.forEach(item => {
                 let nextGrade = parseInt(item.GRADE) + 1;
-                nextGrade = nextGrade === 11 ? 12 : nextGrade;
+                nextGrade = ((nextGrade === 11) && (salaryData.filter(item => parseInt(item.GRADE) === nextGrade).length <= 0)) ? 12 : nextGrade;
                 output.push({
                     ID: item.ID,
                     BASIC: item.BASIC,
@@ -51,7 +51,7 @@ function generateGrade(salaryData) {
 
 function getNextStep(salaryData, nextGrade, basic){
     const filtered = salaryData.filter(item => (parseInt(item.GRADE) === nextGrade) && (parseFloat(item.BASIC) > basic));
-    let basics  = [];
+    let basics = [];
     if(filtered.length > 0){
         basics = filtered.sort((x, y) => parseInt(x.STEP) - parseInt(y.STEP));
     }else{
